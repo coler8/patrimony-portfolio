@@ -1,0 +1,88 @@
+<div class="controles">
+  <h3>Control Mensual de Patrimonio</h3>
+  <div class="mes-selector">
+    @for ( month of meses ; track month) {
+    <button class="mes-btn" [class.active]="mesActual === month" (click)="cambiarMes(month)">
+      {{ month | titlecase }}
+    </button>
+    }
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>INGRESOS</h3>
+    <input type="number" [(ngModel)]="datos.ingresos" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>GASTOS</h3>
+    <input type="number" [(ngModel)]="datos.gastos" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>INVERSIÓN</h3>
+    <input type="number" [(ngModel)]="datos.inversion" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>LIQUIDEZ</h3>
+    <input type="number" [(ngModel)]="datos.liquidez" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>FONDOS INDEXADOS</h3>
+    <input type="number" [(ngModel)]="datos.fondosIndexados" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>FONDOS MONETARIOS</h3>
+    <input type="number" [(ngModel)]="datos.fondosMonetarios" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>RENTA FIJA</h3>
+    <input type="number" [(ngModel)]="datos.rentaFija" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>CRYPTO</h3>
+    <input type="number" [(ngModel)]="datos.crypto" (change)="actualizarDatos()" />
+  </div>
+  <div class="card">
+    <h3>CROWDFUNDING</h3>
+    <input type="number" [(ngModel)]="datos.crowdfunding" (change)="actualizarDatos()" />
+  </div>
+</div>
+
+<div class="charts-container">
+  <div class="chart-card">
+    <h3>EVOLUCIÓN</h3>
+    <div class="chart-container">
+      <app-chart
+        baseChart
+        [datasets]="[{ data: evolucionData, backgroundColor: '#ffa500', borderRadius: 4 }]"
+        [labels]="evolucionLabels"
+        [options]="chartOptions"
+        chartType="bar"
+      >
+      </app-chart>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h3>DISTRIBUCIÓN</h3>
+    <div class="chart-container">
+      <app-chart
+        [datasets]="[
+          {
+            data: distribucionData,
+            backgroundColor: ['#6495ED', '#32CD32', '#4169E1', '#9370DB', '#87CEEB', '#FFA500']
+          }
+        ]"
+        [labels]="distribucionLabels"
+        [options]="{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: '#fff', usePointStyle: true } }
+          }
+        }"
+        chartType="doughnut"
+      >
+      </app-chart>
+    </div>
+  </div>
+</div>

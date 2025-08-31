@@ -1,0 +1,19 @@
+<div class="header">
+  <div class="patrimonio-total">
+    <h1>PATRIMONIO TOTAL 📊 Coler8</h1>
+    <div class="patrimonio-valor">
+      {{ patrimonioTotal | currency : 'EUR' : 'symbol' : '1.2-2' }}
+    </div>
+    <div class="objetivo">
+      <span class="objetivo-label">OBJETIVO</span>
+      <span class="objetivo-valor">100.000,00 €</span>
+    </div>
+    <div class="progreso-bar">
+      <div class="progreso-fill" [style.width.%]="progreso"></div>
+    </div>
+  </div>
+  <div class="fecha">
+    <h2>{{ mesActual | uppercase }}</h2>
+    <p>2025</p>
+  </div>
+</div>

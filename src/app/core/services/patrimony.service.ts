@@ -1,101 +1,60 @@
-// core/services/patrimonio.service.ts
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
-export interface DatosMes {
-  ingresos: number;
-  gastos: number;
-  inversion: number;
-  liquidez: number;
-  fondosIndexados: number;
-  fondosMonetarios: number;
-  rentaFija: number;
-  crypto: number;
-  crowdfunding: number;
-}
-
-export type Mes =
-  | 'enero'
-  | 'febrero'
-  | 'marzo'
-  | 'abril'
-  | 'mayo'
-  | 'junio'
-  | 'julio'
-  | 'agosto'
-  | 'septiembre'
-  | 'octubre'
-  | 'noviembre'
-  | 'diciembre';
+import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { DatosMes, Mes, MESES } from '../interfaces/datos.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PatrimonyService {
   private STORAGE_KEY = 'datosPatrimoniales';
-  private _datos = new BehaviorSubject<Record<Mes, DatosMes>>({} as any);
-  datos$ = this._datos.asObservable();
 
-  private mesActual = new BehaviorSubject<Mes>('julio');
-  mesActual$ = this.mesActual.asObservable();
+  private camposExcluidos: (keyof DatosMes)[] = ['ingresos', 'gastos'];
 
-  constructor() {
+  datos = signal<Record<Mes, DatosMes>>({} as Record<Mes, DatosMes>);
+  mesActual = signal<Mes>(MESES[new Date().getMonth()]);
+
+  constructor(private http: HttpClient) {
     this.cargarDatos();
   }
 
   private cargarDatos() {
     const datosGuardados = localStorage.getItem(this.STORAGE_KEY);
     if (datosGuardados) {
-      this._datos.next(JSON.parse(datosGuardados));
+      this.datos.set(JSON.parse(datosGuardados));
     } else {
-      this._datos.next(this.datosIniciales());
+      this.http.get<Record<Mes, DatosMes>>('assets/datos-patrimoniales.json').subscribe({
+        next: (json) => this.datos.set(json),
+      });
     }
   }
 
-  guardarDatos() {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this._datos.value));
-  }
-
-  cambiarMes(mes: Mes) {
-    this.mesActual.next(mes);
+  setMesActual(mes: Mes) {
+    this.mesActual.set(mes);
   }
 
   actualizarMes(mes: Mes, nuevosDatos: DatosMes) {
-    const copia = { ...this._datos.value, [mes]: nuevosDatos };
-    this._datos.next(copia);
-    this.guardarDatos();
+    this.datos.update((d) => ({ ...d, [mes]: nuevosDatos }));
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.datos()));
   }
 
-  calcularPatrimonioTotal(mes: Mes): number {
-    const d = this._datos.value[mes];
-    return (
-      d.liquidez + d.fondosIndexados + d.fondosMonetarios + d.rentaFija + d.crypto + d.crowdfunding
-    );
+  getDatosMes(mes: Mes) {
+    console.log(this.datos());
+
+    return this.datos()[mes] ?? null; // devuelve null si no existe
   }
 
-  private datosIniciales(): Record<Mes, DatosMes> {
-    return {
-      enero: {
-        ingresos: 3800,
-        gastos: 1950,
-        inversion: 900,
-        liquidez: 15000,
-        fondosIndexados: 11000,
-        fondosMonetarios: 4500,
-        rentaFija: 9000,
-        crypto: 18000,
-        crowdfunding: 800,
-      },
-      julio: {
-        ingresos: 4179.33,
-        gastos: 2078.24,
-        inversion: 1050,
-        liquidez: 18512.15,
-        fondosIndexados: 12694.57,
-        fondosMonetarios: 5285.57,
-        rentaFija: 10289.23,
-        crypto: 20704.26,
-        crowdfunding: 1029.79,
-      },
-      // ... el resto de meses igual
-    } as Record<Mes, DatosMes>;
+  private sumarValores(d: DatosMes): number {
+    return Object.entries(d)
+      .filter(([key]) => !this.camposExcluidos.includes(key as keyof DatosMes))
+      .reduce((total, [, value]) => total + ((value as number) ?? 0), 0);
+  }
+
+  calcularPatrimonioMensual(mes: Mes): number {
+    const d = this.getDatosMes(mes);
+    if (!d) return 0;
+    return this.sumarValores(d);
+  }
+
+  calcularPatrimonioGlobal(): number {
+    const allDatos = this.datos();
+    return Object.values(allDatos).reduce((total, d) => total + this.sumarValores(d), 0);
   }
 }

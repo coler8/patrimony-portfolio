@@ -2,7 +2,7 @@
   <h3>Control Mensual de Patrimonio</h3>
   <div class="mes-selector">
     @for ( month of meses ; track month) {
-    <button class="mes-btn" [class.active]="mesActual === month" (click)="cambiarMes(month)">
+    <button class="mes-btn" [class.active]="mesActual() === month" (click)="cambiarMes(month)">
       {{ month | titlecase }}
     </button>
     }
@@ -10,79 +10,62 @@
 </div>
 
 <div class="grid">
-  <div class="card">
-    <h3>INGRESOS</h3>
-    <input type="number" [(ngModel)]="datos.ingresos" (change)="actualizarDatos()" />
+  @for (campo of campos; track campo.key) {
+  <div class="card" [ngClass]="{ transparent: campo.key === 'invisible' }">
+    <h3>{{ campo.label }}</h3>
+    <div class="input-euro">
+      <input type="number" [(ngModel)]="datos()[campo.key]" (change)="actualizarDatos()" />
+      <span class="euro">€</span>
+    </div>
   </div>
-  <div class="card">
-    <h3>GASTOS</h3>
-    <input type="number" [(ngModel)]="datos.gastos" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>INVERSIÓN</h3>
-    <input type="number" [(ngModel)]="datos.inversion" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>LIQUIDEZ</h3>
-    <input type="number" [(ngModel)]="datos.liquidez" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>FONDOS INDEXADOS</h3>
-    <input type="number" [(ngModel)]="datos.fondosIndexados" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>FONDOS MONETARIOS</h3>
-    <input type="number" [(ngModel)]="datos.fondosMonetarios" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>RENTA FIJA</h3>
-    <input type="number" [(ngModel)]="datos.rentaFija" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>CRYPTO</h3>
-    <input type="number" [(ngModel)]="datos.crypto" (change)="actualizarDatos()" />
-  </div>
-  <div class="card">
-    <h3>CROWDFUNDING</h3>
-    <input type="number" [(ngModel)]="datos.crowdfunding" (change)="actualizarDatos()" />
-  </div>
+  }
 </div>
 
 <div class="charts-container">
   <div class="chart-card">
     <h3>EVOLUCIÓN</h3>
     <div class="chart-container">
-      <app-chart
+      <canvas
         baseChart
-        [datasets]="[{ data: evolucionData, backgroundColor: '#ffa500', borderRadius: 4 }]"
+        [datasets]="[{ data: evolucionData(), backgroundColor: '#ffa500', borderRadius: 4 }]"
         [labels]="evolucionLabels"
-        [options]="chartOptions"
-        chartType="bar"
+        [options]="chartEvolucionOptions"
+        type="bar"
       >
-      </app-chart>
+      </canvas>
     </div>
   </div>
   <div class="chart-card">
     <h3>DISTRIBUCIÓN</h3>
     <div class="chart-container">
-      <app-chart
+      <canvas
+        baseChart
         [datasets]="[
           {
-            data: distribucionData,
+            data: distribucionData(),
             backgroundColor: ['#6495ED', '#32CD32', '#4169E1', '#9370DB', '#87CEEB', '#FFA500']
           }
         ]"
         [labels]="distribucionLabels"
-        [options]="{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { color: '#fff', usePointStyle: true } }
-          }
-        }"
-        chartType="doughnut"
+        [options]="chartDistribucionOptions"
+        [plugins]="plugins"
+        type="doughnut"
       >
-      </app-chart>
+      </canvas>
+    </div>
+  </div>
+
+  <div class="chart-card full-width">
+    <h3>VARIACIÓN MENSUAL</h3>
+    <div class="chart-container">
+      <canvas
+        baseChart
+        [datasets]="variacionDataset()"
+        [labels]="evolucionLabels"
+        [options]="chartVariacionOptions"
+        type="bar"
+      >
+      </canvas>
     </div>
   </div>
 </div>

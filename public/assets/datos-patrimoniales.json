@@ -1,0 +1,98 @@
+{
+  "enero": {
+    "ingresos": 1491.38,
+    "gastos": 863.78,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "febrero": {
+    "ingresos": 1439.79,
+    "gastos": 915.01,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "marzo": {
+    "ingresos": 1461.16,
+    "gastos": 906,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "abril": {
+    "ingresos": 1455,
+    "gastos": 994,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "mayo": {
+    "ingresos": 1513,
+    "gastos": 977,
+    "sabadell": 26000,
+    "myInvestor": 4050,
+    "tradeRepublic": 49000,
+    "crypto": 6594
+  },
+  "junio": {
+    "ingresos": 4736,
+    "gastos": 695,
+    "sabadell": 18100,
+    "myInvestor": 15100,
+    "tradeRepublic": 49060,
+    "crypto": 6336
+  },
+  "julio": {
+    "ingresos": 2587,
+    "gastos": 1275,
+    "sabadell": 15570,
+    "myInvestor": 16225,
+    "tradeRepublic": 51130,
+    "crypto": 7160
+  },
+  "agosto": {
+    "ingresos": 2579,
+    "gastos": 1138,
+    "sabadell": 14010,
+    "myInvestor": 16224,
+    "tradeRepublic": 54000,
+    "crypto": 7143
+  },
+  "septiembre": {
+    "ingresos": 0,
+    "gastos": 0,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "octubre": {
+    "ingresos": 0,
+    "gastos": 0,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "noviembre": {
+    "ingresos": 0,
+    "gastos": 0,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  },
+  "diciembre": {
+    "ingresos": 0,
+    "gastos": 0,
+    "sabadell": 0,
+    "myInvestor": 0,
+    "tradeRepublic": 0,
+    "crypto": 0
+  }
+}

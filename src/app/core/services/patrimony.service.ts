@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatosMes, Mes, MESES } from '../interfaces/datos.interface';
 
@@ -10,6 +10,21 @@ export class PatrimonyService {
 
   datos = signal<Record<Mes, DatosMes>>({} as Record<Mes, DatosMes>);
   mesActual = signal<Mes>(MESES[new Date().getMonth()]);
+
+  patrimonioMensual = computed(() => {
+    const mes = this.mesActual();
+    const valor = this.calcularPatrimonioMensual(mes);
+
+    if (valor === 0) {
+      // Calcular mes anterior
+      const indiceMesActual = MESES.indexOf(mes);
+      const mesAnterior = indiceMesActual > 0 ? MESES[indiceMesActual - 1] : MESES[11];
+
+      return this.calcularPatrimonioMensual(mesAnterior);
+    }
+
+    return valor;
+  });
 
   constructor(private http: HttpClient) {
     this.cargarDatos();
@@ -36,8 +51,6 @@ export class PatrimonyService {
   }
 
   getDatosMes(mes: Mes) {
-    console.log(this.datos());
-
     return this.datos()[mes] ?? null; // devuelve null si no existe
   }
 
@@ -51,10 +64,5 @@ export class PatrimonyService {
     const d = this.getDatosMes(mes);
     if (!d) return 0;
     return this.sumarValores(d);
-  }
-
-  calcularPatrimonioGlobal(): number {
-    const allDatos = this.datos();
-    return Object.values(allDatos).reduce((total, d) => total + this.sumarValores(d), 0);
   }
 }

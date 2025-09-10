@@ -17,9 +17,10 @@ export interface DatosMes {
   gastos: number;
   sabadell: number;
   myInvestor: number;
+  fondosIndexados: number;
   tradeRepublic: number;
   crypto: number;
-  invisible: number;
+  zen: number;
 }
 export const MESES: Mes[] = [
   'enero',
@@ -35,3 +36,16 @@ export const MESES: Mes[] = [
   'noviembre',
   'diciembre',
 ];
+
+export type ExchangeKey = 'binance' | 'bitget' | 'simplefx' | 'coinbase' | 'quantfury';
+
+export interface Campo {
+  key: keyof DatosMes; // 👈 asegura que siempre es una propiedad de DatosMes
+  label: string;
+}
+
+export interface FieldGroups {
+  title: string;
+  fields: Campo[];
+  targetPercentage: number;
+}

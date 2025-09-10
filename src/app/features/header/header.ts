@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { PatrimonyService } from '../../core/services/patrimony.service';
 import { CommonModule, CurrencyPipe, UpperCasePipe } from '@angular/common';
+import { MESES } from '../../core/interfaces/datos.interface';
 
 @Component({
   selector: 'app-header',
@@ -14,10 +15,7 @@ export class HeaderComponent {
 
   mesActual = this.patrimonyService.mesActual;
 
-  patrimonioTotal = computed(() => {
-    // ✅ ahora devuelve el total acumulado de todos los meses
-    return this.patrimonyService.calcularPatrimonioGlobal();
-  });
+  patrimonioMensual = this.patrimonyService.patrimonioMensual;
 
-  progreso = computed(() => Math.min((this.patrimonioTotal() / 80000) * 100, 100));
+  progreso = computed(() => Math.min((this.patrimonioMensual() / 80000) * 100, 100));
 }

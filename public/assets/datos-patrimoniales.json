@@ -4,7 +4,9 @@
     "gastos": 863.78,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "febrero": {
@@ -12,7 +14,9 @@
     "gastos": 915.01,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "marzo": {
@@ -20,7 +24,9 @@
     "gastos": 906,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "abril": {
@@ -28,39 +34,49 @@
     "gastos": 994,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "mayo": {
     "ingresos": 1513,
     "gastos": 977,
     "sabadell": 26000,
-    "myInvestor": 4050,
+    "myInvestor": 750,
+    "fondosIndexados": 3300,
     "tradeRepublic": 49000,
+    "zen": 0,
     "crypto": 6594
   },
   "junio": {
     "ingresos": 4736,
     "gastos": 695,
     "sabadell": 18100,
-    "myInvestor": 15100,
+    "myInvestor": 11100,
+    "fondosIndexados": 4000,
     "tradeRepublic": 49060,
+    "zen": 0,
     "crypto": 6336
   },
   "julio": {
     "ingresos": 2587,
     "gastos": 1275,
-    "sabadell": 15570,
-    "myInvestor": 16225,
+    "sabadell": 15370,
+    "myInvestor": 11425,
+    "fondosIndexados": 4800,
     "tradeRepublic": 51130,
+    "zen": 200,
     "crypto": 7160
   },
   "agosto": {
     "ingresos": 2579,
     "gastos": 1138,
     "sabadell": 14010,
-    "myInvestor": 16224,
+    "myInvestor": 10844,
+    "fondosIndexados": 5400,
     "tradeRepublic": 54000,
+    "zen": 400,
     "crypto": 7143
   },
   "septiembre": {
@@ -68,7 +84,9 @@
     "gastos": 0,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "octubre": {
@@ -76,7 +94,9 @@
     "gastos": 0,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "noviembre": {
@@ -84,7 +104,9 @@
     "gastos": 0,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   },
   "diciembre": {
@@ -92,7 +114,9 @@
     "gastos": 0,
     "sabadell": 0,
     "myInvestor": 0,
+    "fondosIndexados": 0,
     "tradeRepublic": 0,
+    "zen": 0,
     "crypto": 0
   }
 }

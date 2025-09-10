@@ -10,12 +10,66 @@
 </div>
 
 <div class="grid">
-  @for (campo of campos; track campo.key) {
-  <div class="card" [ngClass]="{ transparent: campo.key === 'invisible' }">
-    <h3>{{ campo.label }}</h3>
-    <div class="input-euro">
-      <input type="number" [(ngModel)]="datos()[campo.key]" (change)="actualizarDatos()" />
-      <span class="euro">€</span>
+  @for (group of fieldGroups; track group.title) {
+  <div class="row">
+    <h3 class="row-title">{{ group.title }}</h3>
+    <div class="row-fields">
+      <!-- Campos del grupo -->
+      @for (campo of group.fields; track campo.key) {
+      <div class="card">
+        <h3>{{ campo.label }}</h3>
+        <div class="input-euro">
+          <input type="number" [(ngModel)]="datos()[campo.key]" (change)="actualizarDatos()" />
+          <span class="euro-symbol">€</span>
+        </div>
+      </div>
+      }
+      <!-- Columna de total -->
+      <div class="card total-card">
+        <h3>Total</h3>
+        <div class="input-euro">
+          <span
+            class="euro"
+            [ngStyle]="{
+              color:
+                group.title.toLowerCase() === 'ingresos'
+                  ? calcularTotalGrupo(group) >= 0
+                    ? '#00FF7F'
+                    : '#FF4136'
+                  : +calcularPorcentajeGrupo(group) < group.targetPercentage
+                  ? '#FF4136'
+                  : '#00FF7F'
+            }"
+          >
+            {{ calcularTotalGrupo(group) }} €
+          </span>
+
+          <!-- Solo mostrar porcentaje si NO es Ingresos -->
+          @if (group.title.toLowerCase() !== 'ingresos') {
+
+          <span
+            class="porcentaje"
+            [ngStyle]="{
+              color:
+                +calcularPorcentajeGrupo(group) < group.targetPercentage ? '#FF4136' : '#00FF7F'
+            }"
+          >
+            ({{ calcularPorcentajeGrupo(group) }}%)
+          </span>
+          }
+        </div>
+
+        <!-- Solo mostrar óptimo si NO es Ingresos -->
+        @if (group.title.toLowerCase() !== 'ingresos') {
+
+        <small style="font-size: 10px">
+          Óptimo: {{ group.targetPercentage }}% ({{
+            (patrimonioMensual() * group.targetPercentage) / 100 | number
+          }}
+          €)
+        </small>
+        }
+      </div>
     </div>
   </div>
   }
@@ -48,7 +102,7 @@
         ]"
         [labels]="distribucionLabels"
         [options]="chartDistribucionOptions"
-        [plugins]="plugins"
+        [plugins]="pluginsDistribucion"
         type="doughnut"
       >
       </canvas>
@@ -69,3 +123,43 @@
     </div>
   </div>
 </div>
+
+<div class="controles" style="margin-top: 1rem">
+  <h3>Calculadoras</h3>
+  <div class="mes-selector">
+    @for (calculator of optionsCalculators; track calculator) {
+    <button
+      class="mes-btn"
+      [class.active]="calculatorActual() === calculator"
+      (click)="cambiarCalculator(calculator)"
+    >
+      {{ calculator | titlecase }}
+    </button>
+    }
+  </div>
+</div>
+
+@if (calculatorActual() === 'calculo criptomonedas') {
+<div>
+  <div class="grid">
+    @for (campo of cryptoCampos; track campo.key) {
+    <div class="card">
+      <h3>{{ campo.label }}</h3>
+      <div class="input-euro">
+        <input
+          type="number"
+          [ngModel]="cryptoCalc()[campo.key]"
+          (ngModelChange)="updateCryptoValue(campo.key, $event)"
+        />
+        <span class="euro-symbol">€</span>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="card total-card">
+    <h3>Total</h3>
+    <p>{{ cryptoTotal() }} €</p>
+  </div>
+</div>
+}
